@@ -10,7 +10,6 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family: Arial, sans-serif;
         }
 
         body{
@@ -55,11 +54,30 @@
         }
 
         .container h1{
-            color:white;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background: linear-gradient(
+                90deg,
+                #07a2df,
+                #07dce4,
+                #06dd80,
+                #2802ff
+
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gerak 5s linear infinite;
+        }
+
+        @keyframes gerak {
+            0% {background-position: 0%;}
+            25% {background-position: 75%;}
+            75% {background-position: 225%;}
+            100% {background-position: 300%;}
         }
 
         .container p{
             color:#f1f1f1;
+            font-family: Arial, sans-serif;
         }
 
         .btn{
@@ -79,7 +97,7 @@
         }
 
         .hero-img{
-            width:180px;
+            width:250px;
             margin-bottom:25px;
         }
 
@@ -106,22 +124,22 @@
 
     <div class="container">
 
-        <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
+        <img src="woi.png"
              class="hero-img">
 
         <h1>Nathan Marketplace</h1>
 
         <p>
-            Selamat datang di marketplace Nathan dengan nuansa kalcerrr abiezz.
+            Selamat datang di marketplace Nathan dengan nuansa kalcerrr abiezz. 🤙🤪
         </p>
 
         <p>
-            Pelanggan puas kami puas, pelanggan merah kami lebih marah.
+            Pelanggan puas kami puas, pelanggan merah kami lebih marah.🤫🤫
 
         </p>
 
         <p>
-            #andasegankamisegan
+            #andasegankamisegan 😘😘
         </p>
 
         <a href="marketplace.html" class="btn">
