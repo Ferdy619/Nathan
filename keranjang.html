@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang Belanja - Nathan Marketplace</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background: url(lumba.jpg);
+    }
+    
+    header {
+      background-color: red;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    header h1 {
+      margin: 0;
+    }
+    
+    nav {
+      margin-top: 1rem;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    
+    nav a:hover {
+      text-decoration: underline;
+    }
+    
+    section {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+    
+    .remove-btn {
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .remove-btn:hover {
+      background-color: #cc0000;
+    }
+    
+    .cart-total {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: red;
+    }
+    
+    #checkout-btn {
+      display: block;
+      width: 200px;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 30px auto 0;
+      font-size: 1.1em;
+      transition: background-color 0.3s;
+    }
+    
+    #checkout-btn:hover {
+      background-color: #218838;
+    }
+    
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    
+    #cart-items {
+      margin-top: 20px;
+    }
+    
+    h2 {
+      color: #ff0000;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Nathan Marketplace</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="cart.html">Keranjang (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<section class="cart">
+  <h2>Keranjang Belanja</h2>
+  <div id="cart-items">
+    <!-- Daftar produk akan ditampilkan di sini -->
+  </div>
+  <div class="cart-total">
+    <p>Total: Rp <span id="total-price">0</span></p>
+  </div>
+  <button id="checkout-btn">Checkout</button>
+</section>
+
+<script>
+// Fungsi untuk menampilkan produk di keranjang
+function displayCartItems() {
+  const cartItems = document.getElementById('cart-items');
+  const totalPriceElement = document.getElementById('total-price');
+  const cartCount = document.getElementById('cart-count');
+
+  // Ambil data keranjang dari localStorage
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let totalPrice = 0;
+
+  // Kosongkan daftar produk sebelum menambahkan yang baru
+  cartItems.innerHTML = '';
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<p>Keranjang belanja Anda kosong.</p>';
+  } else {
+    // Tambahkan setiap produk ke daftar
+    cart.forEach((item, index) => {
+      const productDiv = document.createElement('div');
+      productDiv.className = 'cart-item';
+      productDiv.innerHTML = `
+        <p><strong>${item.name}</strong> - Rp ${item.price.toLocaleString('id-ID')}</p>
+        <button class="remove-btn" data-index="${index}">Hapus</button>
+      `;
+      cartItems.appendChild(productDiv);
+      totalPrice += item.price;
+    });
+  }
+
+  // Tampilkan total harga
+  totalPriceElement.innerText = totalPrice.toLocaleString('id-ID');
+
+  // Update jumlah item di keranjang
+  cartCount.innerText = cart.length;
+}
+
+// Fungsi untuk menghapus produk dari keranjang
+function removeItemFromCart(index) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index, 1); // Hapus produk dari array
+  localStorage.setItem('cart', JSON.stringify(cart)); // Simpan kembali ke localStorage
+  displayCartItems(); // Perbarui tampilan keranjang
+}
+
+// Event listener untuk tombol "Hapus"
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('remove-btn')) {
+    const index = e.target.getAttribute('data-index');
+    removeItemFromCart(index);
+  }
+});
+
+// Event listener untuk tombol "Checkout"
+document.getElementById('checkout-btn').addEventListener('click', function() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) {
+    alert('Keranjang belanja Anda kosong!');
+    return;
+  }
+  
+  if (confirm('Apakah Anda yakin ingin melakukan checkout?')) {
+    alert('Terima kasih telah berbelanja di Nathan Marketplace!');
+    localStorage.removeItem('cart'); // Kosongkan keranjang setelah checkout
+    displayCartItems(); // Perbarui tampilan keranjang
+  }
+});
+
+// Tampilkan produk di keranjang saat halaman dimuat
+window.addEventListener('load', displayCartItems);
+</script>
+
+<footer>
+  <p>© 2026 Nathan Marketplace</p>
+</footer>
+
+</body>
+</html>

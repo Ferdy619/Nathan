@@ -11,6 +11,8 @@
   <h1>Nathan Marketplace</h1>
   <nav>
     <a href="index.html">Home</a>
+    <a href="keranjang.html">Keranjang (<span id="cart-count">0</span>)</a>
+    <a href="sayangayn.html">iloveyouayn</a>
   </nav>
 </header>
 
@@ -32,42 +34,42 @@
       <img src="sepatu_futsal.jpg">
       <h3>Sepatu Messi</h3>
       <p>Rp 250.000</p>
-      <button>Beli</button>
+      <button class="buy-btn" data-name="Sepatu Messi" data-price="250000">beli woi!!!</button>
     </div>
 
     <div class="card">
       <img src="tas.jpg">
       <h3>Tas Jelek</h3>
       <p>Rp 150.000</p>
-      <button>Beli</button>
+      <button class="buy-btn" data-name="Tas Jelek" data-price="150000">beli woi!!!</button>
     </div>
 
     <div class="card">
       <img src="jam.jpg">
       <h3>Jam Canggih</h3>
       <p>Rp 300.000</p>
-      <button>Beli</button>
+      <button class="buy-btn" data-name="Jam Canggih" data-price="300000">Beli woi!!!</button>
     </div>
 
     <div class="card">
       <img src="sepatu_running.jpg">
       <h3>Sepatu Kalcer</h3>
       <p>Rp 400.000</p>
-      <button>Tambah ke Keranjang</button>
+      <button class="buy-btn" data-name="Sepatu Kalcer" data-price="400000">beli woi!!!</button>
     </div>
 
     <div class="card">
       <img src="baju.jpg">
       <h3>Kaos Jelek</h3>
       <p>Rp 100.000</p>
-      <button>Tambah ke Keranjang</button>
+      <button class="buy-btn" data-name="Kaos Jelek" data-price="100000">beli woi!!!</button>
     </div>
 
     <div class="card">
       <img src="topi.jpg">
       <h3>Topi Polisi</h3>
       <p>Rp 80.000</p>
-      <button>Tambah ke Keranjang</button>
+      <button class="buy-btn" data-name="Topi Polisi" data-price="80000">beli woi!!!</button>
     </div>
 
   </div>
@@ -96,6 +98,44 @@ searchBtn.addEventListener('click', function() {
 searchInput.addEventListener('keyup', function(e) {
   if (e.key === 'Enter') {
     searchBtn.click();
+  }
+});
+
+// CART FUNCTIONALITY
+let cart = [];
+const cartCount = document.getElementById('cart-count');
+
+document.querySelectorAll('.buy-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const productName = this.getAttribute('data-name');
+    const productPrice = parseInt(this.getAttribute('data-price'));
+
+    const product = {
+      name: productName,
+      price: productPrice
+    };
+
+    cart.push(product);
+    updateCartCount();
+    saveCartToLocalStorage();
+    alert(`${productName} telah ditambahkan ke keranjang!`);
+  });
+});
+
+function updateCartCount() {
+  cartCount.innerText = cart.length;
+}
+
+function saveCartToLocalStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Load cart from localStorage when the page loads
+window.addEventListener('load', function() {
+  const savedCart = localStorage.getItem('cart');
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartCount();
   }
 });
 </script>
